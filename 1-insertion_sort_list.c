@@ -5,42 +5,30 @@
  * @list: list to be sorted
  * Retrun: void
  */
-
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *head, *ptr = *list;
-	listint_t *temp_p, *temp_ne, *inner_temp, *inner_temp_t;
-	if (head == NULL)
+	listint_t *current = *list;
+
+	if (list == NULL)
 		return;
-
-	while (head != NULL || list != NULL)
+	while (current->next != NULL)
 	{
-		ptr = head;
-		head = head->next;
-		temp_p = ptr->n;
-		temp_ne = ptr->next;
-
-		if (ptr->n > temp_n->n)
+		current = current->next;
+		while (current->prev != NULL && current->n < current->prev->n)
 		{
-			ptr->next = ptr->prev;
-			temp_p->next = ptr->next;
-			ptr->prev = temp_p->prev;
-			temp_p->prev = temp_p->next;
-
-			ptr = ptr->next;
-			while(ptr->prev != NULL)
-			{
-				if (ptr->prev->n > ptr->n)
-				{
-					inner_temp->ne = ptr->next;
-					inner_temp_t->p = ptr->n;
-					ptr->next = ptr->prev;
-					inner_temp->next = ptr->next;
-					ptr->prev = inner_temp->prev;
-					inner_temp->prev = inner_temp->next;
-				}
-				print_list(list);
-			}
+			current->prev->next = current->next;
+			if (current->next != NULL)
+				current->next->prev = current->prev;
+			current->prev->next = current->next;
+			current->next = current->prev;
+			current->prev = current->next->prev;
+			current->next->prev = current;
+		
+			if (current->prev == NULL)
+				*list = current;
+			else
+				current->prev->next = current;
+			print_list(*list);
 		}
 	}
 }
