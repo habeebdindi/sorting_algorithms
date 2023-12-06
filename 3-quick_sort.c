@@ -54,7 +54,7 @@ int partition(int *array, int start, int end, size_t size)
 				swap(&array[i], &array[j]);
 				print_array(array, size);
 			}
- 		}
+		}
 	}
 	if (array[i + 1] != array[end])
 	{
