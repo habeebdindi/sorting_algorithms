@@ -17,8 +17,9 @@ typedef struct listint_s
 	struct listint_s *next;
 } listint_t;
 
-int partition(int *array, int start, int end, size_t size);
+
 void swap(int *a, int *b);
+int partition(int *array, int start, int end, size_t size);
 void qs(int *array, int start, int end, size_t size);
 void print_list(const listint_t *list);
 void print_array(const int *array, size_t size);

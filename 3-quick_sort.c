@@ -10,6 +10,7 @@ void quick_sort(int *array, size_t size)
 	qs(array, 0, size - 1, size);
 }
 
+
 /**
  * qs - sorts an @array recursively.
  * @array: the array.
@@ -19,14 +20,15 @@ void quick_sort(int *array, size_t size)
  */
 void qs(int *array, int start, int end, size_t size)
 {
-	int partition_index;
 	if (start < end)
 	{
-		partition_index = partition(array, start, end, size);
-		qs(array, start, partition_index - 1, size);
-		qs(array, partition_index + 1, end, size);
+		int pi = partition(array, start, end, size);
+
+		qs(array, start, pi - 1, size);
+		qs(array, pi + 1, end, size);
 	}
 }
+
 
 /**
  * partition - partitioning logic.
@@ -38,23 +40,28 @@ void qs(int *array, int start, int end, size_t size)
  */
 int partition(int *array, int start, int end, size_t size)
 {
-	int pivot, pindex;
-	int i;
+	int pivot = array[end];
+	int i = start - 1;
+	int j;
 
-	pivot = array[end];
-	pindex = start;
-
-	for (i = start; i < end; i++)
+	for (j = start; j < end; j++)
 	{
-		if (array[i] <= pivot)
+		if (array[j] < pivot)
 		{
-			swap(&array[i], &array[pindex]);
-		        pindex++;
-		}
+			i++;
+			if (i != j)
+			{
+				swap(&array[i], &array[j]);
+				print_array(array, size);
+			}
+ 		}
 	}
-	swap(&array[pindex], &array[end]);
-        print_array(array, size);
-	return pindex;
+	if ((i + 1) != end)
+	{
+		swap(&array[i + 1], &array[end]);
+		print_array(array, size);
+	}
+	return (i + 1);
 }
 
 /**
@@ -64,9 +71,7 @@ int partition(int *array, int start, int end, size_t size)
  */
 void swap(int *a, int *b)
 {
-	int temp;
-
-	temp = *a;
+	int temp = *a;
 	*a = *b;
 	*b = temp;
 }
