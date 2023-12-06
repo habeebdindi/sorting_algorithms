@@ -1,4 +1,5 @@
 #include "sort.h"
+
 /**
  * quick_sort - sorts an @array.
  * @array: the array.
@@ -6,29 +7,66 @@
  */
 void quick_sort(int *array, size_t size)
 {
-	size_t pivot_index, i, temp;
-	int pivot;
+	qs(array, 0, size - 1, size);
+}
 
-	if (size <= 1)
-		return;
+/**
+ * qs - sorts an @array recursively.
+ * @array: the array.
+ * @size: len of @array.
+ * @start: start position.
+ * @end: end position.
+ */
+void qs(int *array, int start, int end, size_t size)
+{
+	int partition_index;
+	if (start < end)
+	{
+		partition_index = partition(array, start, end, size);
+		qs(array, start, partition_index - 1, size);
+		qs(array, partition_index + 1, end, size);
+	}
+}
 
-	pivot = array[size - 1];
-	pivot_index = 0;
-	for (i = 0; i < size - 1; i++)
+/**
+ * partition - partitioning logic.
+ * @array: the array.
+ * @size: len of @array.
+ * @start: start position.
+ * @end: end position.
+ * Return: the pivot index.
+ */
+int partition(int *array, int start, int end, size_t size)
+{
+	int pivot, pindex;
+	int i;
+
+	pivot = array[end];
+	pindex = start;
+
+	for (i = start; i < end; i++)
 	{
 		if (array[i] <= pivot)
 		{
-			temp = array[i];
-			array[i] = array[pivot_index];
-			array[pivot_index] = temp;
-			pivot_index++;
-			print_array(array, size);
+			swap(&array[i], &array[pindex]);
+			pindex++;
 		}
 	}
-	temp = array[pivot_index];
-	array[pivot_index] = pivot;
-	array[size - 1] = temp;
+	swap(&array[pindex], &array[end]);
+	print_array(array, size);
+	return pindex;
+}
 
-	quick_sort(array, pivot_index);
-	quick_sort(array + pivot_index + 1, size - pivot_index - 1);
+/**
+ * swap - swaps two variables.
+ * @a: tvariable one.
+ * @b: variable two.
+ */
+void swap(int *a, int *b)
+{
+	int temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
 }
